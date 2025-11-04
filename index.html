@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bomba Valyuta Konverteri (Yangilangan)</title>
+    
+    <!-- Google Fonts (Poppins) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Choices.js Kutubxonasi CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+    
+    <style>
+        /* --- O'zgaruvchilar (Ranglar, shriftlar) --- */
+        :root {
+            --primary-color: #4a69bd;
+            --secondary-color: #6c5ce7;
+            --accent-color: #f39c12;
+            --background-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --text-color: #ffffff;
+            --input-bg: rgba(255, 255, 255, 0.2);
+            --border-color: rgba(255, 255, 255, 0.3);
+            --shadow-color: rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- Umumiy Stil --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--background-gradient);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-color);
+            overflow: hidden;
+        }
+
+        /* Orqa fonda harakatlanuvchi shakllar */
+        .bg-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+            animation: float 20s infinite ease-in-out;
+        }
+        .shape1 { width: 300px; height: 300px; top: -150px; left: -150px; animation-duration: 25s; }
+        .shape2 { width: 200px; height: 200px; bottom: -100px; right: -100px; animation-duration: 30s; animation-delay: 5s; }
+        .shape3 { width: 150px; height: 150px; top: 50%; left: 10%; animation-duration: 22s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        /* --- Asosiy Konteyner (Karta) --- */
+        .converter-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 var(--shadow-color);
+            width: 90%;
+            max-width: 550px; /* Kenglikni ozgina oshirdik */
+            z-index: 10;
+            position: relative;
+        }
+
+        header { text-align: center; margin-bottom: 30px; }
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #fff, var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        header p { margin-top: 10px; font-size: 1rem; opacity: 0.8; }
+
+        /* --- Konverter Formasi --- */
+        .converter-form { display: flex; flex-direction: column; gap: 25px; }
+        .amount-section, .result-section { display: flex; flex-direction: column; gap: 10px; }
+        label { font-weight: 500; font-size: 0.9rem; opacity: 0.9; }
+        .input-wrapper { display: flex; gap: 15px; align-items: center; }
+
+        input[type="number"] {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            width: 100%;
+            font-weight: 600;
+        }
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(243, 156, 18, 0.3);
+        }
+
+        /* --- Choices.js uchun maxsus uslublar --- */
+        .choices {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .choices__inner {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 10px 15px; /* Ichkaridan joy kamroq */
+            color: var(--text-color);
+            font-size: 1.1rem;
+            min-height: 50px; /* Input balandligiga teng */
+            display: flex;
+            align-items: center;
+        }
+
+        .choices__inner:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .choices.is-focused .choices__inner {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(243, 156, 18, 0.3);
+        }
+
+        .choices__list--single .choices__item {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .choices__list--dropdown {
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px 0 var(--shadow-color);
+            z-index: 100;
+        }
+
+        .choices__list--dropdown .choices__item {
+            color: var(--text-color);
+            padding: 12px 15px;
+            font-weight: 500;
+        }
+
+        .choices__list--dropdown .choices__item--selectable.is-highlighted {
+            background: var(--accent-color);
+            color: #fff;
+        }
+        
+        .choices__list--dropdown .choices__item--choice {
+            display: flex;
+            align-items: center;
+        }
+
+        .choices[data-type*=select-one]::after {
+            border-color: var(--text-color) transparent transparent transparent;
+        }
+
+        .choices[data-type*=select-one].is-open::after {
+            border-color: transparent transparent var(--text-color) transparent;
+        }
+
+        .swap-button {
+            background: var(--accent-color);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+            flex-shrink: 0; /* Tugma o'lchami o'zgarmasligi uchun */
+        }
+
+        .swap-button:hover { transform: rotate(180deg) scale(1.1); }
+        .swap-button svg { width: 24px; height: 24px; fill: white; }
+
+        #resultAmount {
+            background: transparent;
+            border: 2px dashed var(--border-color);
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            text-align: center;
+        }
+
+        footer { text-align: center; margin-top: 30px; font-size: 0.8rem; opacity: 0.7; }
+
+        /* --- Moslashuvchanlik (Responsive) --- */
+        @media (max-width: 600px) {
+            .converter-container { padding: 25px; }
+            header h1 { font-size: 2rem; }
+            .input-wrapper { flex-direction: column; }
+            .swap-button { transform: rotate(90deg); }
+            .swap-button:hover { transform: rotate(270deg) scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Orqa fondagi dekorativ shakllar -->
+    <div class="bg-shape shape1"></div>
+    <div class="bg-shape shape2"></div>
+    <div class="bg-shape shape3"></div>
+
+    <main class="converter-container">
+        <header>
+            <h1>Valyuta Konverteri</h1>
+            <p>Barcha davlat valyutalarida tez va aniq hisoblash</p>
+        </header>
+
+        <form class="converter-form" id="converterForm">
+            <section class="amount-section">
+                <label for="fromAmount">Miqdorni kiriting</label>
+                <div class="input-wrapper">
+                    <input type="number" id="fromAmount" placeholder="1000" value="1000" min="0">
+                    <select id="fromCurrency"></select>
+                </div>
+            </section>
+
+            <button type="button" class="swap-button" id="swapCurrencies" title="Almashtirish">
+                <svg viewBox="0 0 24 24"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46C19.54 15.03 20 13.57 20 12c0-4.42-3.58-8-8-8zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 7.74C4.46 8.97 4 10.43 4 12c0 4.42 3.58 8 8 8v3l4-4-4-4v3z"/></svg>
+            </button>
+
+            <section class="result-section">
+                <label for="resultAmount">Natija</label>
+                <div class="input-wrapper">
+                    <input type="text" id="resultAmount" readonly>
+                    <select id="toCurrency"></select>
+                </div>
+            </section>
+        </form>
+
+        <footer>
+            <p>&copy; 2024 Bomba Konverter. Barcha huquqlar himoyalangan.</p>
+        </footer>
+    </main>
+
+    <!-- Choices.js Kutubxonasi JS -->
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+    <script>
+        // --- Valyuta ma'lumotlari ---
+        const currencies = {
+            UZS: { name: "O'zbekiston So'mi", symbol: "UZS", flag: "🇺🇿" },
+            USD: { name: "AQSH Dollari", symbol: "$", flag: "🇺🇸" },
+            EUR: { name: "Yevro", symbol: "€", flag: "🇪🇺" },
+            RUB: { name: "Rossiya Rubli", symbol: "₽", flag: "🇷🇺" },
+            GBP: { name: "Britaniya Funt Sterlingi", symbol: "£", flag: "🇬🇧" },
+            JPY: { name: "Yaponiya Yenasi", symbol: "¥", flag: "🇯🇵" },
+            KZT: { name: "Qozog'iston Tengesi", symbol: "₸", flag: "🇰🇿" },
+            CNY: { name: "Xitoy Yuanı", symbol: "¥", flag: "🇨🇳" }
+        };
+
+        // --- FAKE API Kurslari ---
+        const exchangeRates = {
+            UZS: 11250, USD: 1, EUR: 0.92, RUB: 90, GBP: 0.79, JPY: 150, KZT: 450, CNY: 7.2
+        };
+
+        // --- Elementlarni olish ---
+        const fromAmountEl = document.getElementById('fromAmount');
+        const fromCurrencyEl = document.getElementById('fromCurrency');
+        const toCurrencyEl = document.getElementById('toCurrency');
+        const resultAmountEl = document.getElementById('resultAmount');
+        const swapButton = document.getElementById('swapCurrencies');
+
+        let fromChoicesInstance, toChoicesInstance;
+
+        // --- Selectlarni valyutalar bilan to'ldirish va Choices.js ni ishga tushirish ---
+        function initializeChoices() {
+            for (const code in currencies) {
+                const option1 = new Option(`${currencies[code].flag} ${code}`, code);
+                const option2 = new Option(`${currencies[code].flag} ${code}`, code);
+                fromCurrencyEl.add(option1);
+                toCurrencyEl.add(option2);
+            }
+
+            // Choices.js ni ishga tushirish
+            fromChoicesInstance = new Choices(fromCurrencyEl, {
+                searchEnabled: false, // Qidiruvni o'chirdik, chunki valyutalar oz
+                itemSelectText: '',
+                shouldSort: false, // Berilgan tartibda qoldirish
+            });
+
+            toChoicesInstance = new Choices(toCurrencyEl, {
+                searchEnabled: false,
+                itemSelectText: '',
+                shouldSort: false,
+            });
+
+            // Boshlang'ich qiymatlarni o'rnatish
+            fromChoicesInstance.setChoiceByValue('UZS');
+            toChoicesInstance.setChoiceByValue('USD');
+        }
+
+        // --- Konvertatsiya funksiyasi ---
+        function convertCurrency() {
+            const amount = parseFloat(fromAmountEl.value) || 0;
+            const fromCurrency = fromChoicesInstance.getValue(true);
+            const toCurrency = toChoicesInstance.getValue(true);
+
+            const amountInUSD = amount / exchangeRates[fromCurrency];
+            const convertedAmount = amountInUSD * exchangeRates[toCurrency];
+
+            resultAmountEl.value = `${currencies[toCurrency].symbol} ${convertedAmount.toFixed(2).toLocaleString('en-US')}`;
+        }
+
+        // --- Valyutalarni almashtirish ---
+        function swapCurrencies() {
+            const fromValue = fromChoicesInstance.getValue(true);
+            const toValue = toChoicesInstance.getValue(true);
+            
+            fromChoicesInstance.setChoiceByValue(toValue);
+            toChoicesInstance.setChoiceByValue(fromValue);
+            
+            convertCurrency();
+        }
+
+        // --- Event Listenerlar (Tinglovchilar) ---
+        fromAmountEl.addEventListener('input', convertCurrency);
+        
+        // Choices.js o'zgartirish eventlarini eshitish
+        fromCurrencyEl.addEventListener('change', convertCurrency);
+        toCurrencyEl.addEventListener('change', convertCurrency);
+        
+        swapButton.addEventListener('click', swapCurrencies);
+
+        // --- Dastlabki ishga tushirish ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeChoices();
+            convertCurrency();
+        });
+
+    </script>
+</body>
+</html>
