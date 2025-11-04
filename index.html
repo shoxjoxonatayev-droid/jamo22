@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ModaDo'kon - Onlayn Kiyimlar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Sarlavha va navigatsiya -->
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>ModaDo'kon</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="nav-link active" data-category="all">Bosh Sahifa</a></li>
+                    <li><a href="#" class="nav-link" data-category="erkaklar">Erkaklar</a></li>
+                    <li><a href="#" class="nav-link" data-category="ayollar">Ayollar</a></li>
+                    <li><a href="#" class="nav-link" data-category="bolalar">Bolalar</a></li>
+                    <li><a href="#" class="nav-link" data-category="aksessuarlar">Aksessuarlar</a></li>
+                </ul>
+            </nav>
+            <div class="header-icons">
+                <button class="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </button>
+                <button class="user-btn">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Qidiruv qismi -->
+    <div class="search-container">
+        <div class="container">
+            <input type="text" placeholder="Mahsulotlarni qidirish..." class="search-input">
+        </div>
+    </div>
+
+    <!-- Hero bo'limi -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2 class="hero-title">Yangi Mavsum Kiyimlari</h2>
+            <p class="hero-subtitle">Eng so'nggi moda trendlari va uslublar</p>
+            <button class="cta-button">Hozir xarid qiling</button>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Fashion Collection">
+        </div>
+    </section>
+
+    <!-- Kategoriyalar bo'limi -->
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">Kategoriyalar</h2>
+            <div class="categories-grid">
+                <div class="category-card" data-category="erkaklar">
+                    <div class="category-icon">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h3>Erkaklar Kiyimlari</h3>
+                    <p>Zamonaviy erkaklar kiyimlari</p>
+                </div>
+                <div class="category-card" data-category="ayollar">
+                    <div class="category-icon">
+                        <i class="fas fa-female"></i>
+                    </div>
+                    <h3>Ayollar Kiyimlari</h3>
+                    <p>Elegant ayollar kiyimlari</p>
+                </div>
+                <div class="category-card" data-category="bolalar">
+                    <div class="category-icon">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <h3>Bolalar Kiyimlari</h3>
+                    <p>Qulay va chiroyli bolalar kiyimlari</p>
+                </div>
+                <div class="category-card" data-category="aksessuarlar">
+                    <div class="category-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Aksessuarlar</h3>
+                    <p>Zargarlik buyumlari va boshqa aksessuarlar</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mahsulotlar bo'limi -->
+    <section class="products">
+        <div class="container">
+            <h2 class="section-title">Mashhur Mahsulotlar</h2>
+            <div class="category-filter">
+                <button class="filter-btn active" data-category="all">Hammasi</button>
+                <button class="filter-btn" data-category="erkaklar">Erkaklar</button>
+                <button class="filter-btn" data-category="ayollar">Ayollar</button>
+                <button class="filter-btn" data-category="bolalar">Bolalar</button>
+                <button class="filter-btn" data-category="aksessuarlar">Aksessuarlar</button>
+            </div>
+            <div class="products-grid" id="products-grid">
+                <!-- Mahsulotlar JavaScript orqali qo'shiladi -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Aksiya bo'limi -->
+    <section class="promo">
+        <div class="container">
+            <div class="promo-content">
+                <h2>Maxsus Aksiya</h2>
+                <p>Birinchi xaridingizda <span class="discount">20%</span> chegirma</p>
+                <button class="promo-button" id="apply-discount">Aksiyani oling</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ModaDo'kon</h3>
+                    <p>Eng yaxshi kiyimlar va aksessuarlar bir joyda</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Kategoriyalar</h3>
+                    <ul>
+                        <li><a href="#" data-category="erkaklar">Erkaklar</a></li>
+                        <li><a href="#" data-category="ayollar">Ayollar</a></li>
+                        <li><a href="#" data-category="bolalar">Bolalar</a></li>
+                        <li><a href="#" data-category="aksessuarlar">Aksessuarlar</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Yordam</h3>
+                    <ul>
+                        <li><a href="#">Yetkazib berish</a></li>
+                        <li><a href="#">Qaytarish</a></li>
+                        <li><a href="#">Savol-javob</a></li>
+                        <li><a href="#">Aloqa</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Aloqa</h3>
+                    <p>+998 90 123 45 67</p>
+                    <p>info@modadokon.uz</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 ModaDo'kon. Barcha huquqlar himoyalangan.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Savat modali -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Savat</h2>
+                <button class="close-cart">&times;</button>
+            </div>
+            <div class="cart-items" id="cart-items">
+                <!-- Savatdagi mahsulotlar -->
+            </div>
+            <div class="cart-total">
+                <p>Jami: <span id="cart-total-price">0 so'm</span></p>
+                <p class="discount-text" id="discount-text" style="display: none;">Chegirma qo'llandi: <span id="discount-amount">0 so'm</span></p>
+                <p class="final-price" id="final-price" style="display: none;">Yakuniy narx: <span id="final-price-amount">0 so'm</span></p>
+                <button class="checkout-btn">Buyurtma berish</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
